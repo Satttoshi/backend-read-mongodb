@@ -8,7 +8,6 @@ export default function Product() {
   const { id } = router.query;
 
   const { data } = useSWR(id ? `/api/products/${id}` : null);
-
   if (!data) {
     return <h1>Loading...</h1>;
   }
@@ -23,6 +22,13 @@ export default function Product() {
       <StyledButton type="button" onClick={() => router.push("/")}>
         Back to all
       </StyledButton>
+      {data.reviews.map((review) => (
+        <section key={review._id}>
+          <h3>{review.title}</h3>
+          <p>{review.text}</p>
+          <p>Rating: {review.rating}</p>
+        </section>
+      ))}
     </ProductCard>
   );
 }
